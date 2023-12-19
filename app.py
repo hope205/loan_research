@@ -9,19 +9,20 @@ import  model_files.process as ml
 
 
 
-ft_acc = ['loannumber','loanamount','totaldue','termdays','bank_account_type','longitude_gps','latitude_gps',
-          'bank_name_clients','employment_status_clients'
+ft_acc = [
+    "Gender","Married","Dependents","Education","Self_Employed","ApplicantIncome","CoapplicantIncome","LoanAmount",
+    "Loan_Amount_Term","Credit_History","Property_Area"				
           ]
-
 
 dic = {}
 
 
 nav = st.sidebar.radio( "Navigation", ['Home','About','Predictions'])
 
+
 if nav == 'Home':
     st.title("Customers loan default")
-    st.markdown("##### *Know your customers behaviour* " )
+
     
 
     st.text("")
@@ -57,18 +58,21 @@ if nav == 'About':
     st.text("")
     
     st.markdown("##### *Here is an outine of customers details and their meanings*")
+
     
     st.info(
-    '''  
-    - Loan number : The number of the loans that we want to make our predictions on
+    ''' 
+     
+    - Gender : The gender of the customer wether male or female
     - Loan amount : Loan value taken
-    - Total due : Total repayment required to settle the loan - this is the capital loan value disbursed + interest and fees
-    - Term days : Term of loan
-    - Bank account type : Type of primary bank account
-    - GPS longitude : Number of teenagers in the customer's household
-    - GPS latitude : Date of customer's enrollment with the company
-    - Client bank name : Name of the bank
-    - Client employment status : Type of employment that customer has
+    - Applicant Income : The amount of income of the applicant 
+    - Coapplicant Income : The amount of income of the co applicant 
+    - Loan amount term : Duration of the loan 
+    - Credit history : Historyof credit teh customer already has
+    - Property area : Where is the customers property located
+    - Married : Marital status
+    - Education : Heighest type of education that customer has
+    - Self employed : Is the customer self employed or not
     
                 ''',)
     
@@ -84,71 +88,49 @@ if nav == 'Predictions':
     st.text("")
 
 
-    third,last = st.columns(2)
-
-    
-
-    dic["loannumber"] = last.number_input("Loan number",step= 1)  
-
-    dic["loanamount"] = third.number_input('Loan amount',step= 1) 
-    
-    dic["birthdate"] = str(st.date_input('Birth date',value = datetime.date(2012, 1, 1)))
-
+  
 
     one,two,three = st.columns(3)
 
-    dic["bank_account_type"] = one.selectbox("Bank account type",('Savings','Current','Other',))  
+    dic["Married"] = one.selectbox("Married",('No', 'Yes'))  
 
-    dic["bank_name_clients"] = two.selectbox('Client bank name',('Diamond Bank', 'GT Bank', 'EcoBank', 'First Bank','Access Bank', 'UBA', 'Union Bank', 'FCMB', 'Zenith Bank',
-       'Stanbic IBTC', 'Fidelity Bank', 'Wema Bank', 'Sterling Bank',
-       'Skye Bank', 'Keystone Bank', 'Heritage Bank', 'Unity Bank',
-       'Standard Chartered'))
+    dic["Education"] = two.selectbox('Education',('Graduate', 'Not Graduate'))
     
-    dic["employment_status_clients"] = three.selectbox('Client employment status',('Permanent', 'Unemployed', 'Self-Employed', 'Student','Retired', 'Contract'))
+    dic["Self_Employed"] = three.selectbox('Self_Employed',('No', 'Yes'))
     
 
 
-    one,two = st.columns(2)
+    one,two  = st.columns(2)
 
-    dic["totaldue"] = one.number_input("Total due",step= 1) 
+    dic["ApplicantIncome"] = one.number_input("Applicant Income",step= 1) 
 
-    dic["termdays"] = two.number_input("Term days",step=1) 
+    dic["CoapplicantIncome"] = two.number_input("Coapplicant Income",step=1) 
+    
+    
+    
     st.text("")
 
-
+    dic["Gender"] = st.selectbox("Gender",('Male', 'Female')) 
 
     st.text("")
         
     first,second = st.columns([2,1])  
 
-    dic["longitude_gps"] = first.number_input('GPS longitude',step= 0.001)   
+    dic["LoanAmount"] = first.number_input('Loan Amount')   
 
-    dic["latitude_gps"] = second.number_input('GPS latitude',step= 0.001)  
+    dic["Loan_Amount_Term"] = second.number_input('Loan Amount Term')  
 
-    st.text("")  
+    st.text("") 
     
-     
+    met,bet = st.columns(2)
 
-    first,second = st.columns(2)
-    
-    a =  str(first.date_input('Creation date',value = datetime.date(2017, 7, 1), min_value= datetime.date(2017, 7, 1), max_value= datetime.date(2017, 8, 1)))
+    dic["Credit_History"] = met.number_input("Credit History",step= 1) 
 
-    b = str(second.time_input('Creation time'))
+    dic["Property_Area"] = bet.selectbox("Property Area",('Urban', 'Rural', 'Semiurban'))  
     
-    dic["creationdate"] = a + ' ' + b
-    
-    three,four= st.columns(2)
-    
-    c = three.date_input('Approved date',value = datetime.date(2017, 7, 2), min_value= datetime.date(2017, 7, 1), max_value= datetime.date(2017, 8, 1))
-
-    d =  four.time_input('Approved time')
-    
-    dic["approveddate"] = str(c) + ' ' + str(d)
-    
-    
-
-
     st.text("")
+    
+    
 
 
     with open('./model_files/loan_model.sav', 'rb') as fa:
