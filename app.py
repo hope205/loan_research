@@ -3,40 +3,22 @@ import datetime
 import requests
 import time
 import pickle
-
 import  model_files.process as ml
-# import os
 
-
-
-ft_acc = [
-    "Gender","Married","Dependents","Education","Self_Employed","ApplicantIncome","CoapplicantIncome","LoanAmount",
-    "Loan_Amount_Term","Credit_History","Property_Area"				
-          ]
 
 dic = {}
 
-
 nav = st.sidebar.radio( "Navigation", ['Home','About','Predictions'])
-
 
 if nav == 'Home':
     st.title("Customers loan default")
-
-    
-
     st.text("")
-    
     st.text("")
-    
-    
     st.image(
             "https://new-media.dhakatribune.com/en/uploads/2022/06/14/bigstock-loan-default-word-on-note-with-3721537211.jpeg",
            
             # Manually Adjust the width of the image as per requirement
-        )
-    
-    
+        )   
 if nav == 'About':
     st.title("Project Description")
     # st.markdown("##### *Know your customers behaviour* " )
@@ -73,6 +55,7 @@ if nav == 'About':
     - Married : Marital status
     - Education : Heighest type of education that customer has
     - Self employed : Is the customer self employed or not
+    - Dependents : Those associated with the lender
     
                 ''',)
     
@@ -122,9 +105,10 @@ if nav == 'Predictions':
 
     st.text("") 
     
-    met,bet = st.columns(2)
+    met,bet,let = st.columns(3)
 
     dic["Credit_History"] = met.number_input("Credit History",step= 1) 
+    dic["Dependents"] = let.number_input("Dependents",step= 1) 
 
     dic["Property_Area"] = bet.selectbox("Property Area",('Urban', 'Rural', 'Semiurban'))  
     
@@ -133,7 +117,7 @@ if nav == 'Predictions':
     
 
 
-    with open('./model_files/loan_model.sav', 'rb') as fa:
+    with open('./model_files/loanmodel.sav', 'rb') as fa:
         model = pickle.load(fa)
         fa.close()
 
