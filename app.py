@@ -4,6 +4,10 @@ import requests
 import time
 import pickle
 import  model_files.process as ml
+from PIL import Image
+
+banner_img = Image.open(r"./images/pics.png") 
+
 
 
 dic = {}
@@ -14,11 +18,8 @@ if nav == 'Home':
     st.title("Customers loan default")
     st.text("")
     st.text("")
-    st.image(
-            "https://new-media.dhakatribune.com/en/uploads/2022/06/14/bigstock-loan-default-word-on-note-with-3721537211.jpeg",
-           
-            # Manually Adjust the width of the image as per requirement
-        )   
+    st.image(banner_img)
+    
 if nav == 'About':
     st.title("Project Description")
     # st.markdown("##### *Know your customers behaviour* " )
